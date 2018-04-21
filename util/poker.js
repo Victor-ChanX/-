@@ -1,19 +1,18 @@
-var number = [1, 1, 2, 3, 4, 3, 3]
-
-function check (number) {
-  console.log(number)
-}
-
-if (number.lenght > '5') {
-  check(number)
-}
+var number = [1, 1, 2, 2, 4]
 
 function checkArray (para, arr) {
   let processArr = arr.filter(function (value) {
     return value === para
   })
 
-  return processArr.length // 这里返回数组长度或者相应处理
+  return processArr // 这里返回数组长度或者相应处理
 }
 
-console.log(checkArray(3, number))
+function checkPoker (number) {
+  for (let i = 0; i < number.length; i++) {
+    let s = checkArray(number[i], number)
+    console.log(s)
+  }
+}
+
+checkPoker(number)
