@@ -1,5 +1,12 @@
+/**
+ * 判断梭哈牌型大小的函数，将牌型分为[1,1]意味着方块
+ */
+
 var number = [4, 2, 3, 1, 5, 4]
 
+/**
+ * 手动实现快排并返回一个新数组
+ */
 function numberSort (arr) {
   if (arr.length <= 1) { return arr };// 注意不要写arr===[] 永远都是false
   var pivotIndex = Math.floor(arr.length / 2)
@@ -16,6 +23,9 @@ function numberSort (arr) {
   return numberSort(left).concat(pivot, numberSort(right))
 }
 
+/**
+ * 数组内寻找有相同的牌并单独抽出
+ */
 function checkArray (para, arr) {
   let processArr = arr.filter(function (value) {
     if (value === para) {
