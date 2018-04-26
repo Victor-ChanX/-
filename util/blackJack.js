@@ -11,8 +11,6 @@
 /**
  * 判断牌型点数函数
  */
-var number = [[2, 1], [2, 3], [6, 2], [7, 3], [2, 2]]
-var number2 = [[2, 1], [2, 3], [6, 2], [8, 2], [1, 2]]
 function checkPoints (number) {
   let sum = 0
   for (let i = 0; i < number.length; i++) {
@@ -28,27 +26,49 @@ function checkPoints (number) {
 
 /**
  * 判断花色函数
- */
 function checkLeval (number) {
   let newArr = numberSort(number)
   return newArr[newArr.length - 1][1]
 }
-
+ */
 /**
  * 当点数相同的时候判断最大点数是否相同
- */
 function checkMaxPoint (number) {
   let newArr = numberSort(number)
   return newArr[newArr.length - 1][0]
 }
+ */
 
 /**
  * 执行点数相比
+ * 胜利条件：
+ * 1.我方大于对方，且我方小于或等于21点
+ * 2.我方小于对方，且对方大于21点，我方则小于21点
+ * 失败条件：
+ * 1.双方相同点数
+ * 2.对方大于我方并对方小于或等于21点
+ * 3.我方大于21点
  */
 function pointCompare (arr1, arr2) {
   let myPoint = checkPoints(arr1)
   let youPoint = checkPoints(arr2)
-  if (myPoint > youPoint) {
+  console.log(myPoint, youPoint)
+  if (myPoint > youPoint && myPoint <= '21') {
+    console.log('YOU WIN')
+  } else if (myPoint < youPoint && youPoint > '21' && myPoint <= '21') {
+    console.log('YOU WIN')
+  } else if (myPoint === youPoint) {
+    console.log('YOU LOSE')
+  } else if (myPoint > '21') {
+    console.log('YOU LOSE')
+  } else if (youPoint === '21') {
+    console.log('YOU LOSE')
+  } else if (youPoint > myPoint) {
+    console.log('YOU LOSE')
+  }
+
+  /*
+  if (myPoint > youPoint || myPoint <= 21) {
     console.log('YOU WIN')
   } else if (myPoint === youPoint) {
     let myMaxPoint = checkMaxPoint(arr1)
@@ -66,15 +86,16 @@ function pointCompare (arr1, arr2) {
     } else {
       console.log('YOU LOSE')
     }
-  } else {
+  } else if (myPoint < youPoint || youPoint <= 21) {
     console.log('YOU LOSE')
+  } else if (myPoint < youPoint || youPoint > 21) {
+    console.log('YOU WIN')
   }
+  */
 }
-pointCompare(number, number2)
 
 /**
  * 手动实现快排
- */
 function numberSort (arr) {
   if (arr.length <= 1) { return arr };// 注意不要写arr===[] 永远都是false
   var pivotIndex = Math.floor(arr.length / 2)
@@ -90,6 +111,7 @@ function numberSort (arr) {
   }
   return numberSort(left).concat(pivot, numberSort(right))
 }
+ */
 
 /**
  * 发牌函数
@@ -109,11 +131,33 @@ var poker = {
   '12': [[12, 1], [12, 2], [12, 3], [12, 4]],
   '13': [[13, 1], [13, 2], [13, 3], [13, 4]]
 }
+/**
+ * 生成随机牌组
+ */
 function deal () {
   var randomNumber = Math.random()
   var leval = Math.ceil(randomNumber * 4) - 1
-  var point = Math.ceil(randomNumber * 13) - 1
-  console.log(poker[point][leval])
+  var point = Math.ceil(randomNumber * 13)
+  return poker[point][leval]
 }
-
-deal()
+/**
+ * 进行发牌
+ */
+function game () {
+  var number = []
+  var number2 = []
+  for (let i = 0; i < 3; i++) {
+    let card = deal()
+    number.push(card)
+  }
+  for (let i = 0; i < 3; i++) {
+    let card = deal()
+    number2.push(card)
+  }
+  console.log(number)
+  console.log(number2)
+  pointCompare(number, number2)
+}
+for (let i = 0; i < 50; i++) {
+  game()
+}
